@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="content">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}  
+            {% for message in messages %}
+            <script>
+                    Swal({
+                        title: 'Success!',
+                        text: '{{ message }}',
+                        type: 'success',
+                        confirmButtonText: 'OK!'
+                    })
+            </script>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    {% if isLoggedIn %}
+      <a href="{{url_for('addItem', category_id=category_id)}}" class="btn btn-info button block">Add an Item</a>
+    {% endif %}
+    {% if category_items == [] %}
+        <p class="noItemsText">No items were added in this category.</p>
+    {% else %}
+        {% for item in category_items %}
+            <a href="{{url_for('showItem', item_id=item.id)}}" class="itemContainer"><span class="itemTitle">{{ item.title }}</span></a>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,118 @@
+body {
+    background-color: #1e1e1e;
+    font-family: 'Roboto';
+}
+
+.noItemsText {
+    font-size: 24px;
+    color: #fff;
+    font-family: 'Roboto-Light';
+    padding: 40px;
+}
+
+.itemContainer {
+    color: #aaa;
+    font-family: 'Roboto-Light';
+    padding: 20px;
+    border-color: #DCDCDC;
+    border-width: 2px;
+    border-radius: 20px;
+    border-style: solid;
+    display: inline-block;
+    margin: 10px;
+}
+
+.itemContainer:hover {
+    cursor: pointer;
+    background-color: darkcyan;
+    text-decoration: none;
+    color: #fff;
+}
+
+.itemContainer > .itemTitle {
+    font-size: 24px;
+    display: block;
+    font-family: 'Roboto-Regular'
+}
+
+.content {
+    padding: 40px;
+}
+
+.title {
+    font-size: 36px;
+    color: #fff;
+    font-family: 'Roboto-Light';
+    margin-top: 30px;
+}
+
+.description {
+    font-size: 16px;
+    color: #ddd;
+    font-family: 'Roboto-Light';
+}
+
+#signinButton {
+    justify-content: flex-end;
+    display: flex;
+    flex: 1;
+    color: #ccc;
+    align-items: center;
+}
+
+#loggedIn {
+    color: #ccc;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+#loggedInUsername {
+    color: #ccc;
+    font-family: 'Roboto-Bold';
+    padding-left: 5px;
+
+}
+
+.button {
+    margin-bottom: 30px;
+    width: 120px;
+}
+
+.block {
+    display: block;
+}
+
+.formLabel {
+    color: #ccc;
+}
+
+.formInput {
+    width: 400px;
+}
+
+.categorySelect {
+    margin-bottom: 15px;
+    display: block;
+}
+
+.fill:hover {
+    color: #1e1e1e;
+}
+
+hr {
+    background-color: #ccc;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#latestItemsLabel {
+    font-size: 36px;
+    color: #fff;
+    font-family: 'Roboto-Light';
+}
+
+#logoutButton {
+    margin-left: 10px;
+}

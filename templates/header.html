@@ -1,0 +1,75 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="{{url_for('main')}}">Catalog App</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        {% for category in categories %}
+            <li id="{{category.id}}" class="nav-item">
+            <a class="nav-link" href="{{url_for('showCategory', category_id=category.id)}}">{{ category.title }}</a>
+            </li>
+        {% endfor %}
+      </ul>
+        {% if isLoggedIn %}
+        <div id="loggedIn">
+            Logged in as
+            <span id="loggedInUsername">{{ user_info['username'] }}</span>
+            <a href="/gdisconnect" id="logoutButton">Logout</a>
+        </div>
+          
+        {% else %}
+        <div id="signinButton">
+            <span class="g-signin"
+                data-scope="openid email"
+                data-clientid="387632835380-4jqb67ifaii8uh3eec5grs4ngun1hmja.apps.googleusercontent.com"
+                data-redirecturi="postmessage"
+                data-accesstype="offline"
+                data-cookiepolicy="single_host_origin"
+                data-callback="signInCallback"
+                data-approvalprompt="force">
+            </span>
+        </div>
+        {% endif %}
+    </div>
+  </nav>
+
+  <script>
+      const current_url = window.location.href
+      const navbar = document.querySelectorAll('.nav-item')
+      
+      for (let category of navbar) {
+          const href = current_url.split('/')
+          isCategoryPage = href[href.length - 2] == 'category'
+          if (category.id == current_url[current_url.length - 1] && isCategoryPage) {
+              category.classList.add('active')
+          }
+      } 
+
+function signInCallback(authResult) {
+    if (authResult['code']) {
+        // Hide the sign-in button now that the user is authorized
+        // $('#signinButton').attr('style', 'display: none');
+        // Send the one-time-use code to the server, if the server responds, write a 'login successful' message to the web page and then redirect back to the main restaurants page
+        $.ajax({
+            type: 'POST',
+            url: '/gconnect?state={{STATE}}',
+            processData: false,
+            data: authResult['code'],
+            contentType: 'application/octet-stream; charset=utf-8',
+            success: function(res) {
+                // Handle or verify the server response if necessary.
+                if (res) {
+                    window.location.href = "/";
+                } else if (authResult['error']) {
+                    console.log('There was an error: ' + authResult['error']);
+                } else {
+                        $('#result').html('Failed to make a server-side call. Check your configuration and console.');
+                }
+            }
+        
+        });
+    }
+}
+
+  </script>

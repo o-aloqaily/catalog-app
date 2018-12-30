@@ -1,0 +1,78 @@
+{% extends "main.html" %}
+{% block content %}
+<div class="content">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}  
+        {% for message in messages %}
+        <script>
+            if ('{{message}}' == 'All changes were saved.') {
+                Swal({
+                    title: 'Success!',
+                    text: '{{ message }}',
+                    type: 'success',
+                    confirmButtonText: 'OK!'
+                })
+            } else {
+                Swal({
+                    title: 'Error!',
+                    text: '{{ message }}',
+                    type: 'error',
+                    confirmButtonText: 'OK!'
+                })
+            }
+        </script>
+        {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    {% if isLoggedIn and user_info['user_id'] == item.user_id %}
+      <a href="{{url_for('editItem', item_id = item.id )}}" class="btn btn-info button">Edit</a>
+      <button onclick="confirmDelete('{{item.title}}')" class="btn btn-danger button">Delete</button>
+    {% endif %}
+    <p class="title">{{ item.title }}</p>
+    <p class="description">{{ item.description }}</p>
+    <hr />
+</div>
+
+<script>
+    const confirmDelete = (itemTitle) => {
+        Swal({
+            title: 'Are you sure?',
+            text: `${itemTitle} will be deleted.`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            post('/item/{{item.id}}/delete')
+        })
+    }
+
+    // this function was found on stackoverflow: 
+    // https://stackoverflow.com/questions/133925/javascript-post-request-like-a-form-submit
+    function post(path, params, method) {
+        method = method || "post"; // Set method to post by default if not specified.
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for(var key in params) {
+            if(params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+{% endblock %}
